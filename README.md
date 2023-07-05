@@ -4,7 +4,7 @@
 ### usage
 ```
 $ openasar.sh -h
-usage: /home/kenzie/.local/bin/openasar <action> <branch>
+usage: openasar <action> <branch>
 actions:
 	install   - install openasar for given branch
 	uninstall - uninstall openasar for given branch
