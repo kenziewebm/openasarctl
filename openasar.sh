@@ -2,13 +2,13 @@
 
 function usage() {
 	echo "usage: $(basename $0) <action> <branch>"  # ugly basename because some bash update made it so that $0 is a full path???
-	echo "Actions:"
+	echo "actions:"
 	echo "	install   - install openasar for given branch"
 	echo "	uninstall - uninstall openasar for given branch"
 	echo "	status	  - check if openasar is installed for given branch"
 	echo "	basedir   - print a given branch's base directory"
 	echo ""
-	echo "Branches: release, ptb, canary"
+	echo "branches: release, ptb, canary"
 	exit $1
 }
 
@@ -78,6 +78,13 @@ function findbasedir() {
 		exit 3
 	fi
 }
+
+for i in $(echo curl sudo); do
+	if [ -z $(which $i) ]; then
+		echo "dep not found: $i"
+		exit 1
+	fi
+done
 
 case $1 in
 	-h|--help)
