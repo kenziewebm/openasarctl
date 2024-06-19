@@ -13,7 +13,7 @@ function usage() {
 }
 
 function version() {
-	echo "openasarctl v1.0"
+	echo "openasarctl v1.1"
 }
 
 function parser() {
@@ -50,7 +50,7 @@ function uninstall() {
 
 function checkinstall() {
 	findbasedir $branch
-	if [[ $(du -b $basedir/resources/app.asar | awk '{print $1}') -lt 1048576 ]]; then # check if app.asar < 1mb
+	if [[ $(wc -c $basedir/resources/app.asar | awk '{print $1}') -lt 1048576 ]]; then # check if app.asar < 1mb
 		echo "openasar seems to be installed for $branch"
 	else
 		echo "looks like the stock app.asar is installed for $branch"
@@ -72,7 +72,10 @@ function findbasedir() {
 		usage 1
 	fi
 
-	export basedir=$(realpath $(which discord$suffix 2>/dev/null) 2>/dev/null| sed -e "s/\/$binary//g")
+	case "$(uname -s)" in
+		"Darwin") export basedir="/Applications/Discord$suffix.app/Contents/" ;;
+		"Linux") export basedir="$(realpath $(which discord$suffix 2>/dev/null) 2>/dev/null| sed -e \"s/\/$binary//g\")" ;;
+	esac
 	if [[ -z "$basedir" ]]; then
 		echo "discord $branch isnt installed"
 		exit 3
